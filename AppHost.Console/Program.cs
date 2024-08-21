@@ -13,12 +13,12 @@ using Microsoft.Extensions.Logging;
 
 Console.WriteLine($"Current environment: {Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}");
 
-var hostBuilder = Host.CreateDefaultBuilder();
+var hostBuilder = Host.CreateDefaultBuilder(args); // TODO: test args
 
 hostBuilder.ConfigureHostConfiguration(builder =>
 {
     builder.SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", false, true) // Common for all, can be overwritten
+        .AddJsonFile("appsettings.json", false, true) // Common for all, it can be overwritten
         .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", true, true) // Overwrites appsettings.json with more specific settings
         .AddEnvironmentVariables(); // Overwrite appsettings files with environment variables
     
@@ -38,7 +38,7 @@ var app = hostBuilder.Build();
 
 var logger = app.Services.GetService<ILogger<Program>>();
 
-// TODO: What is the difference?
+// TODO: What is the difference? Does scope handle lifetimes, disposes etc.?
 // 1
 using (var scope = app.Services.CreateScope())
 {
