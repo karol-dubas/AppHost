@@ -15,5 +15,5 @@ class Service
         logger.LogInformation("Creating a service...");
     }
 
-    public int GetNumber() => _config.GetValue<int>("number");
+    public string GetName() => _config.GetValue<string>("name") ?? "";
 }
