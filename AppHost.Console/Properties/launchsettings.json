@@ -9,7 +9,7 @@
     "Development-env-var": {
       "commandName": "Project",
       "environmentVariables": {
-        "name": "environment variable" // Overwrites the settings
+        "Settings__Name": "environment variable" // Overwrites the settings
       }
     },
     "Production": {

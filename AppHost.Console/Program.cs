@@ -17,40 +17,54 @@ var hostBuilder = Host.CreateDefaultBuilder(args); // TODO: test args
 
 hostBuilder.ConfigureHostConfiguration(builder =>
 {
+    builder.Sources.Clear();
+    
+    // it is done by default host builder, but just for a demo
     builder.SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", false, true) // Common for all, it can be overwritten
         .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", true, true) // Overwrites appsettings.json with more specific settings
-        .AddEnvironmentVariables(); // Overwrite appsettings files with environment variables
+        .AddUserSecrets<Program>()
+        .AddEnvironmentVariables("DOTNET_"); // Overwrite appsettings files with environment variables
+
+    // TODO: it ignores commenting secrets and env vars, why is that?
     
-    // Hierarchy:
+    // Default hierarchy:
     // - environment variables & console arguments
     // - secrets.json (external local system file, unique id is included in project file)
     // - appsettings.{Environment}.json
     // - appsettings.json
+    
+    // TODO: is hierarchy changed with builder Add.. methods?
 });
 
 hostBuilder.ConfigureServices((context, services) =>
 {
-    services.AddSingleton<Service>();
+    services.Configure<Settings>(context.Configuration.GetSection(nameof(Settings)));
+    services.AddScoped<Service>();
 });
 
 var app = hostBuilder.Build();
 
-var logger = app.Services.GetService<ILogger<Program>>();
+// TODO: What is the difference between:
+// app.Services.CreateScope().ServiceProvider.GetRequiredService<>
+// app.Services.GetService<>
+// Does scope handle lifetimes, disposes, etc.?
 
-// TODO: What is the difference? Does scope handle lifetimes, disposes etc.?
-// 1
-using (var scope = app.Services.CreateScope())
+Task.Run(() =>
 {
-    var service = scope.ServiceProvider.GetRequiredService<Service>();
-    service.GetName();
-    logger?.LogInformation("The name is: {Name}", service?.GetName());
-}
+    Console.WriteLine("Press 'O' to print the current settings");
+    while (true)
+    {
+        if (Console.ReadKey(true).Key != ConsoleKey.O)
+            return;
 
-// 2
-{
-    var service = app.Services.GetService<Service>();
-    logger?.LogInformation("The name is: {Name}", service?.GetName());
-}
+        using (var scope = app.Services.CreateScope())
+        {
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            var service = scope.ServiceProvider.GetRequiredService<Service>();
+            logger?.LogInformation(service?.GetOptionsAsJson());
+        }
+    } 
+});
 
-//await app.RunAsync();
+await app.RunAsync();
