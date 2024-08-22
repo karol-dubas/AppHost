@@ -11,7 +11,8 @@ using Microsoft.Extensions.Logging;
 
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder
 
-Console.WriteLine($"Current environment: {Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}");
+string? environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+Console.WriteLine($"Current environment: {environment}");
 
 var hostBuilder = Host.CreateDefaultBuilder(args); // TODO: test args
 
@@ -21,8 +22,8 @@ hostBuilder.ConfigureHostConfiguration(builder =>
     
     // it is done by default host builder, but just for a demo
     builder.SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", false, true) // Common for all, it can be overwritten
-        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", true, true) // Overwrites appsettings.json with more specific settings
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) // Common for all, it can be overwritten
+        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true) // Overwrites appsettings.json with more specific settings
         .AddUserSecrets<Program>()
         .AddEnvironmentVariables("DOTNET_"); // Overwrite appsettings files with environment variables
 

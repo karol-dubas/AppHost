@@ -20,7 +20,7 @@ class Service
         IOptionsSnapshot<Settings> settingsSnapshot
         )
     {
-        _config = config; // Load whole configuration directly
+        _config = config; // Load the whole configuration directly
         _settings = settings.Value; // It's a singleton, value isn't updated at the runtime
         _settingsMonitor = settingsMonitor.CurrentValue; // Monitor is a singleton, but the CurrentValue is transient
         _settingsSnapshot = settingsSnapshot.Value; // Scoped, value won't be changed during ongoing execution
@@ -33,5 +33,5 @@ class Service
         Options = _settings.Name,
         IOptionsMonitor = _settingsMonitor.Name,
         IOptionsSnapshot = _settingsSnapshot.Name
-    }, new JsonSerializerOptions() { WriteIndented = true});
+    }, new JsonSerializerOptions() { WriteIndented = true });
 }
