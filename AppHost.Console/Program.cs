@@ -9,12 +9,20 @@ using Microsoft.Extensions.Logging;
 
 // The app can be started with different launchsettings.json profiles, use `dotnet run --launch-profile "Development"`
 
+// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder
 
 string? environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
 Console.WriteLine($"Current environment: {environment}");
 
 var hostBuilder = Host.CreateDefaultBuilder(args); // TODO: test args
+
+hostBuilder.ConfigureLogging(builder =>
+{
+    builder.ClearProviders();
+    builder.AddDebug();
+    builder.AddConsole();
+});
 
 hostBuilder.ConfigureHostConfiguration(builder =>
 {
