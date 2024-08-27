@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 string? environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
 Console.WriteLine($"Current environment: {environment}");
 
+// Default builder configures DI container, logging and configuration
 var hostBuilder = Host.CreateDefaultBuilder(args); // TODO: test args
 
 hostBuilder.ConfigureLogging(builder =>
@@ -38,8 +39,9 @@ hostBuilder.ConfigureHostConfiguration(builder =>
     // TODO: it ignores commenting secrets and env vars, why is that?
     
     // Default hierarchy:
-    // - environment variables & console arguments
-    // - secrets.json (external local system file, unique id is included in project file)
+    // - command-line arguments
+    // - environment variables
+    // - secrets.json (external local system file with unique id file name in the project file, works when the app is in the Development environment)
     // - appsettings.{Environment}.json
     // - appsettings.json
     
