@@ -63,7 +63,7 @@ var app = hostBuilder.Build();
 
 Task.Run(() =>
 {
-    Console.WriteLine("Press 'O' to print the current settings");
+    Console.WriteLine("Press 'O' to log the current settings");
     while (true)
     {
         if (Console.ReadKey(true).Key != ConsoleKey.O)
