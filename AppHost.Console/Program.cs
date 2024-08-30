@@ -8,12 +8,13 @@ using Microsoft.Extensions.Logging;
 // Set appsettings.json file to copy always to output directory
 
 // The app can be started with different launchsettings.json profiles, use `dotnet run --launch-profile "Development"`
+// Environment variables set in launchSettings.json override those set in the system environment.
 
-// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/configuration
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder
+// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
 
 string? environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
-Console.WriteLine($"Current environment: {environment}");
+Console.WriteLine($"DOTNET_ENVIRONMENT: {environment}");
 
 // Default builder configures DI container, logging and configuration
 var hostBuilder = Host.CreateDefaultBuilder(args); // TODO: test args
