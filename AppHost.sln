@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppBuilder.Console", "AppBu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyAppBuilder.Console", "EmptyAppBuilder.Console\EmptyAppBuilder.Console.csproj", "{B16B0147-7384-4159-A17C-168FA80E16BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging.Console", "Logging.Console\Logging.Console.csproj", "{6F54AF2C-F2E4-40AB-A4B6-5AB13EE7B887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLogger.Console", "ServiceLogger.Console\ServiceLogger.Console.csproj", "{A9E12459-9F47-4A26-8A5F-D1301DA15B6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{B16B0147-7384-4159-A17C-168FA80E16BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B16B0147-7384-4159-A17C-168FA80E16BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B16B0147-7384-4159-A17C-168FA80E16BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F54AF2C-F2E4-40AB-A4B6-5AB13EE7B887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F54AF2C-F2E4-40AB-A4B6-5AB13EE7B887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F54AF2C-F2E4-40AB-A4B6-5AB13EE7B887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F54AF2C-F2E4-40AB-A4B6-5AB13EE7B887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E12459-9F47-4A26-8A5F-D1301DA15B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E12459-9F47-4A26-8A5F-D1301DA15B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E12459-9F47-4A26-8A5F-D1301DA15B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E12459-9F47-4A26-8A5F-D1301DA15B6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

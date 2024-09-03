@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 var settings = new HostApplicationBuilderSettings
@@ -42,9 +43,12 @@ builder.Services.AddOptions<Settings>()
 // Alternatively:
 //builder.Services.Configure<Settings>(builder.Configuration.GetRequiredSection(nameof(Settings)));
 
+builder.Logging.AddConsole();
+
 using var host = builder.Build();
 
 var config = host.Services.GetRequiredService<IOptions<Settings>>().Value;
-Console.WriteLine(config?.Name);
+var logger = host.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Name: {Name}", config?.Name);
 
 //await host.RunAsync();

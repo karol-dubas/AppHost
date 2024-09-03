@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 // The app can be started with different launchsettings.json profiles, use `dotnet run --launch-profile "Development"`
 // Environment variables set in launchSettings.json override those set in the system environment.
 
+// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/logging?tabs=command-line
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
 
