@@ -2,8 +2,17 @@
 
 using var loggerFactory = LoggerFactory.Create(static b =>
 {
-    b.AddConsole();
+    b.AddSimpleConsole(o =>
+    {
+        o.SingleLine = true;
+        o.IncludeScopes = true;
+        o.TimestampFormat = "HH:mm:ss ";
+    });
 });
 
 var logger = loggerFactory.CreateLogger<Program>();
-logger.LogInformation("Number: {Number}", Random.Shared.Next(10));
+using (logger.BeginScope("[Scope #1]"))
+{
+    logger.LogInformation("Number #1: {Number}", Random.Shared.Next(10));
+}
+logger.LogInformation("Number #2: {Number}", Random.Shared.Next(10));
