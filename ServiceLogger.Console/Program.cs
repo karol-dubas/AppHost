@@ -8,7 +8,7 @@ services.AddSingleton<Service>();
 
 var serviceProvider = services.BuildServiceProvider();
 
-// It automatically creates the logger
+// It automatically creates the required logger
 var service = serviceProvider.GetRequiredService<Service>();
 service.DoWork();
 

@@ -1,4 +1,4 @@
-namespace AppHost.Console;
+namespace DefaultBuilder.Console;
 
 public class Settings
 {
