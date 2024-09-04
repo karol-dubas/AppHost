@@ -5,17 +5,17 @@ using Microsoft.Extensions.Options;
 
 namespace EmptyAppBuilder.Console;
 
-class Service
+class SettingsService
 {
-    private readonly ILogger<Service> _logger;
+    private readonly ILogger<SettingsService> _logger;
     
     private readonly IConfiguration _config;
     private readonly Settings _settings;
     private readonly Settings _settingsMonitor;
     private readonly Settings _settingsSnapshot;
 
-    public Service(
-        ILogger<Service> logger,
+    public SettingsService(
+        ILogger<SettingsService> logger,
         IConfiguration config, 
         IOptions<Settings> settings, 
         IOptionsMonitor<Settings> settingsMonitor,
@@ -30,9 +30,9 @@ class Service
         _settingsSnapshot = settingsSnapshot.Value; // Scoped, value won't be changed during ongoing execution
     }
 
-    public void LogOptionsAsJson() => _logger.LogInformation("Settings: {JsonSettings}", GetOptionsAsJsonString());
+    public void LogSettingsAsJson() => _logger.LogInformation("Settings: {JsonSettings}", GetSettingsAsJsonString());
     
-    private string GetOptionsAsJsonString() => JsonSerializer.Serialize(new
+    private string GetSettingsAsJsonString() => JsonSerializer.Serialize(new
     {
         IConfiguration = _config.GetValue<string>("Settings:Name") ?? string.Empty,
         Options = _settings.Name,

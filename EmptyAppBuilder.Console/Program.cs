@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
+// TODO: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0#lsj
 
 // Set appsettings.json file to copy always to output directory
 
@@ -28,7 +29,7 @@ var settings = new HostApplicationBuilderSettings
 
 var builder = Host.CreateEmptyApplicationBuilder(settings);
 
-// Each subsequent provider overrides the previous ones, creating a hierarchy built through chained methods.
+// Each following provider overrides the previous ones, creating a hierarchy built through chained methods.
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", false, true)
@@ -56,35 +57,48 @@ builder.Services.AddOptions<Settings>()
 // Alternatively:
 //builder.Services.Configure<Settings>(builder.Configuration.GetRequiredSection(nameof(Settings)));
 
-builder.Services.AddTransient<Service>();
+builder.Services.AddTransient<SettingsService>();
 
 builder.Logging
     .AddConsole()
     .AddDebug();
 
+// Build automatically registers:
+// - IHostApplicationLifetime (post-startup and graceful shutdown tasks)
+// - IHostLifetime (when the host starts and when it stops)
+// - IHostEnvironment
 using var appHost = builder.Build();
 
-_ = RunPrintSettingLoop(appHost);
+_ = RunMenuLoop(appHost);
 
 await appHost.RunAsync();
 
-Task RunPrintSettingLoop(IHost host)
+Task RunMenuLoop(IHost host)
 {
     return Task.Run(() =>
     {
         Console.WriteLine("Press 'O' to log the current settings");
+        Console.WriteLine("Press 'Q' to exit the app");
+
         while (true)
         {
-            if (Console.ReadKey(true).Key != ConsoleKey.O)
-                return;
+            var key = Console.ReadKey(true).Key;
             
+            if (key == ConsoleKey.O)
+            {
+                using var scope = host.Services.CreateScope();
+                scope.ServiceProvider.GetRequiredService<SettingsService>()?.LogSettingsAsJson();
+            }
+            else if (key == ConsoleKey.Q)
+            {
+                using var scope = host.Services.CreateScope();
+                scope.ServiceProvider.GetRequiredService<IHostApplicationLifetime>().StopApplication();
+            }
+
             // TODO: What is the difference between:
             // host.Services.CreateScope().ServiceProvider.GetRequiredService<>
             // host.Services.GetRequiredService<>
             // Does scope handle lifetimes, disposes, etc.?
-
-            using var scope = host.Services.CreateScope();
-            scope.ServiceProvider.GetRequiredService<Service>()?.LogOptionsAsJson();
         }
     });
 }

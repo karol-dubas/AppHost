@@ -54,4 +54,4 @@ var logger = app.Services.GetRequiredService<ILogger<Program>>();
 var settings = app.Services.GetRequiredService<IOptions<Settings>>().Value;
 logger.LogInformation("Setting name: {Name}", settings.Name);
 
-await app.RunAsync();
+await app.StartAsync();
