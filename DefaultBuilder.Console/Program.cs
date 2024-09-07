@@ -27,17 +27,18 @@ using Microsoft.Extensions.Options;
 
 // Host.CreateApplicationBuilder is a lightweight version of a Host.CreateDefaultBuilder, it was introduced in .NET 7
 // with more "linear" code instead of callbacks and provides a great control over the config. 
-//
+// In contrast to original builder, the host configuration is done before creating the builder (or default),
+// and the builder configures only the app, not app & host.
 
 // TODO: test args
 
 #if true
-Console.WriteLine("Running default app builder");
+Console.WriteLine("Running app builder");
 
 var hostBuilder = Host.CreateApplicationBuilder(args);
 hostBuilder.Services.Configure<Settings>(hostBuilder.Configuration.GetSection(nameof(Settings)));
 
-#else // Default builder
+#else
 Console.WriteLine("Running original default builder");
 
 var hostBuilder = Host.CreateDefaultBuilder(args); 
