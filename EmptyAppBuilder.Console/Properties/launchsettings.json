@@ -9,8 +9,11 @@
     "Production": {
       "commandName": "Project",
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Production"
-      }
+        "DOTNET_ENVIRONMENT": "Production",
+        "Settings__Name": "launchsettings.json (env var)",
+        "MYAPP_Settings__Name": "launchsettings.json (MYAPP_ prefix env var)"
+      },
+      "commandLineArgs": "Settings:Name=\"launchsettings.json (command line argument)\""
     }
   }  
 }

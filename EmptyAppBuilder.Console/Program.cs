@@ -1,10 +1,10 @@
-﻿using EmptyAppBuilder.Console;
+﻿using System.Collections;
+using EmptyAppBuilder.Console;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
 // TODO: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0#lsj
 
@@ -14,9 +14,12 @@ using Microsoft.Extensions.Logging;
 // To start the app with different profiles, edit ./Properties/launchsettings.json and, use:
 // dotnet run --launch-profile <profile_name>
 
-// TODO: print all DOTNET_ env vars
-string? dotnetEnv = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
-Console.WriteLine($"DOTNET_ENVIRONMENT: {dotnetEnv}");
+var dotnetEnvs = Environment.GetEnvironmentVariables()
+    .Cast<DictionaryEntry>()
+    .ToDictionary(x => (string)x.Key, x => (string?)x.Value)
+    .Where(x => x.Key.StartsWith("DOTNET_"));
+
+Console.WriteLine($"DOTNET_ environment variables: {string.Join(", ", dotnetEnvs)}");
 Console.WriteLine($"args: [{string.Join(", ", args)}]");
 
 // Host settings can be configured directly with HostApplicationBuilderSettings
@@ -33,7 +36,7 @@ var settings = new HostApplicationBuilderSettings
 };
 
 // Empty builder applies:
-// - IConfigurationBuilder.AddCommandLine (with passed args in host settings param) 
+// - passed command line 'args'
 // - setting's configuration base directory path (can be modified in host settings)
 var appBuilder = Host.CreateEmptyApplicationBuilder(settings);
 
@@ -43,21 +46,21 @@ string currentEnv = appBuilder.Environment.EnvironmentName;
 
 // Configure app config.
 // Each following provider overrides the previous ones, creating a hierarchy built through chained methods.
-// Set appsettings.json file to copy always to output directory.
+// The appsettings.json files must be set to copy always to output directory.
 appBuilder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{currentEnv}.json", optional: true, reloadOnChange: true)
     .AddUserSecrets<Program>(optional: true, reloadOnChange: true)
     .AddEnvironmentVariables()
     .AddEnvironmentVariables("MYAPP_")
+    .AddCommandLine(args)
     ;
 
-// TODO: move to launchsettings.json
 // Settings can be overwritten by env vars now, on windows cmd use:
-// set Settings__Name="setting name env var"
-// set MYAPP_Settings__Name="myapp setting name env var"
+// set Settings__Name="value"
+// set MYAPP_Settings__Name="value"
 
-// Run the command without or with one of these argument options:
+// Run the app using command without or with one of these argument options:
 // dotnet run Settings:Name="cli setting"
 // dotnet run /Settings:Name "cli setting"
 // dotnet run --Settings:Name "cli setting"
@@ -67,16 +70,14 @@ appBuilder.Services.AddOptions<Settings>()
     .Validate(x => !string.IsNullOrWhiteSpace(x.Name), "The name can't be empty")
     .ValidateOnStart();
 
-// Alternatively:
-//builder.Services.Configure<Settings>(builder.Configuration.GetRequiredSection(nameof(Settings)));
+// Alternatively (does the same internally):
+//appBuilder.Services.Configure<Settings>(appBuilder.Configuration.GetRequiredSection(nameof(Settings)));
 
 appBuilder.Services.AddTransient<SettingsService>();
 
 appBuilder.Logging
     .AddConsole()
     .AddDebug();
-
-// TODO: check other default settings and configurations
 
 // Build automatically registers:
 // - IHostApplicationLifetime (post-startup and graceful shutdown tasks)

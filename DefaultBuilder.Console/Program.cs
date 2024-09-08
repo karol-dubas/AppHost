@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 // Default host builder:
 // Sets the content root to the path returned by Directory.GetCurrentDirectory().
-// Loads host configuration from: // TODO: test host configuration
+// Loads host configuration from:
 //   - Environment variables prefixed with "DOTNET_"
 //   - Command-line arguments
 // Loads app configuration with default hierarchy from:
@@ -29,8 +29,6 @@ using Microsoft.Extensions.Options;
 // with more "linear" code instead of callbacks and provides a great control over the config. 
 // In contrast to original builder, the host configuration is done before creating the builder (or default),
 // and the builder configures only the app, not app & host.
-
-// TODO: test args
 
 #if true
 Console.WriteLine("Running app builder");
