@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLogger.Console", "Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefaultBuilder.Console", "DefaultBuilder.Console\DefaultBuilder.Console.csproj", "{FA78720F-6433-4512-BA3C-7ABC61F962C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection", "DependencyInjection", "{09E4042F-A81D-440B-8897-FCE5370008B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnIocContainer.Console", "OwnIocContainer.Console\OwnIocContainer.Console.csproj", "{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,12 @@ Global
 		{FA78720F-6433-4512-BA3C-7ABC61F962C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA78720F-6433-4512-BA3C-7ABC61F962C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA78720F-6433-4512-BA3C-7ABC61F962C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3} = {09E4042F-A81D-440B-8897-FCE5370008B0}
 	EndGlobalSection
 EndGlobal

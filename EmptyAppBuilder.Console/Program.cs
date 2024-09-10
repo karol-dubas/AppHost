@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 // TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
-// TODO: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-8.0#lsj
 
 // The launch profiles are configuration sets for running an application, with configured
 // environment variables, command line arguments, etc.
