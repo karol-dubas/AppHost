@@ -1,4 +1,4 @@
-﻿namespace OwnIocContainer.Console;
+﻿namespace OwnIocContainer.Library;
 
 public class MyService
 {
