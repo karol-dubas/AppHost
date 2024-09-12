@@ -5,54 +5,101 @@ namespace OwnIocContainer.Tests;
 public class ServiceCollectionTests
 {
     [Fact]
-    public void AddSingleton_WithInstance_ShouldRegisterService()
+    public void GetService_NotRegistered_ShouldThrowException()
     {
+        // Arrange
         var services = new ServiceCollection();
-        var myService = new MyService();
-
-        services.AddSingleton(myService);
         var container = services.Build();
+        
+        // Act
 
-        var resolvedService = container.GetService<MyService>();
+        // Assert
+        Assert.Throws<InvalidOperationException>(() => container.GetService<Service>());
+    }
+    
+    [Fact]
+    public void AddSingleton_WithMultipleInstance_ShouldRegisterLastService()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        var service1 = new Service();
+        var service2 = new Service();
 
-        Assert.Equal(myService, resolvedService);
+        // Act
+        services.AddSingleton(service1);
+        services.AddSingleton(service2);
+        var container = services.Build();
+        var resolvedService = container.GetService<Service>();
+        
+        // Assert
+        Assert.Same(service2, resolvedService);
     }
 
     [Fact]
-    public void AddSingleton_WithoutInstance_ShouldRegisterService()
+    public void AddSingleton_WithoutInstance_ShouldRegisterServiceAndReturnCreatedInstance()
     {
+        // Arrange
         var services = new ServiceCollection();
 
-        services.AddSingleton<MyService>();
+        // Act
+        services.AddSingleton<Service>();
         var container = services.Build();
-
-        var resolvedService = container.GetService<MyService>();
-
+        var resolvedService = container.GetService<Service>();
+        
+        // Assert
         Assert.NotNull(resolvedService);
     }
 
     [Fact]
     public void AddTransient_ShouldRegisterService()
     {
+        // Arrange
         var services = new ServiceCollection();
 
-        services.AddTransient<MyService>();
+        // Act
+        services.AddTransient<Service>();
         var container = services.Build();
+        var resolvedService1 = container.GetService<Service>();
+        var resolvedService2 = container.GetService<Service>();
 
-        var resolvedService1 = container.GetService<MyService>();
-        var resolvedService2 = container.GetService<MyService>();
-
+        // Assert
         Assert.NotNull(resolvedService1);
         Assert.NotNull(resolvedService2);
-        Assert.NotEqual(resolvedService1, resolvedService2);
+        Assert.NotSame(resolvedService1, resolvedService2);
     }
 
     [Fact]
-    public void GetService_NotRegistered_ShouldThrowException()
+    public void AddTransient_WithInterface_ShouldRegisterServiceAsInterface()
     {
+        // Arrange
         var services = new ServiceCollection();
-        var container = services.Build();
 
-        Assert.Throws<InvalidOperationException>(() => container.GetService<MyService>());
+        // Act
+        services.AddTransient<IService, Service>();
+        var container = services.Build();
+        IService resolvedService1 = container.GetService<IService>();
+        IService resolvedService2 = container.GetService<IService>();
+
+        // Assert
+        Assert.NotNull(resolvedService1);
+        Assert.NotNull(resolvedService2);
+        Assert.NotSame(resolvedService1, resolvedService2);
+    }
+    
+    [Fact]
+    public void GetService_WithConstructorInjection_ResolvesAllServices()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+
+        // Act
+        services.AddTransient<IParentService, ParentService>();
+        services.AddTransient<IChildService, ChildService>(); // TODO: replace with singleton
+        var container = services.Build();
+        var resolvedService = container.GetService<IParentService>();
+
+        // Assert
+        Assert.NotNull(resolvedService);
+        Assert.NotNull(resolvedService.ChildService);
     }
 }

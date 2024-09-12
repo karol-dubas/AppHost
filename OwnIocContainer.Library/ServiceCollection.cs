@@ -2,7 +2,6 @@
 
 public class ServiceCollection
 {
-    // TODO: handle duplicate types
     private readonly Dictionary<Type, ServiceDescriptor> _services = [];
 
     public void AddSingleton<T>(T instance) where T : class
@@ -10,19 +9,29 @@ public class ServiceCollection
         ArgumentNullException.ThrowIfNull(instance);
 
         var service = new ServiceDescriptor(instance, ServiceLifetime.Singleton);
-        _services[service.Type] = service;
+        _services[service.ChildType] = service;
     }
+    
+    // TODO: singleton parent & child
 
-    public void AddSingleton<T>() where T : class
+    public void AddSingleton<TService>() where TService : class
     {
-        var service = new ServiceDescriptor(typeof(T), ServiceLifetime.Singleton);
-        _services[service.Type] = service;
+        var service = new ServiceDescriptor(typeof(TService), ServiceLifetime.Singleton);
+        _services[service.ChildType] = service;
     }
         
-    public void AddTransient<T>() where T : class
+    public void AddTransient<TService>() where TService : class
     {
-        var service = new ServiceDescriptor(typeof(T), ServiceLifetime.Transient);
-        _services[service.Type] = service;
+        var service = new ServiceDescriptor(typeof(TService), ServiceLifetime.Transient);
+        _services[service.ChildType] = service;
+    }
+    
+    public void AddTransient<TParent, TChild>() where TChild : class, TParent
+    {
+        var service = new ServiceDescriptor(
+            typeof(TParent), typeof(TChild), ServiceLifetime.Transient);
+
+        _services[service.ParentType!] = service;
     }
 
     public ServiceContainer Build() => new(_services);
