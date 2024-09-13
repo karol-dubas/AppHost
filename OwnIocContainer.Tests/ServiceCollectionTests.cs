@@ -91,15 +91,25 @@ public class ServiceCollectionTests
     {
         // Arrange
         var services = new ServiceCollection();
+        var childService = new ChildService();
 
         // Act
         services.AddTransient<IParentService, ParentService>();
-        services.AddTransient<IChildService, ChildService>(); // TODO: replace with singleton
+        services.AddSingleton<IChildService, ChildService>(childService);
+        services.AddSingleton<ChildService>();
         var container = services.Build();
-        var resolvedService = container.GetService<IParentService>();
+        IParentService resolvedParentService1 = container.GetService<IParentService>();
+        IParentService resolvedParentService2 = container.GetService<IParentService>();
 
         // Assert
-        Assert.NotNull(resolvedService);
-        Assert.NotNull(resolvedService.ChildService);
+        Assert.NotNull(resolvedParentService1);
+        Assert.NotNull(resolvedParentService2);
+        
+        Assert.NotSame(resolvedParentService1, resolvedParentService2);
+        
+        Assert.Same(resolvedParentService1.ChildService, childService);
+        Assert.Same(resolvedParentService2.ChildService, childService);
+        
+        Assert.Same(resolvedParentService1.ChildServiceImpl, resolvedParentService2.ChildServiceImpl);
     }
 }

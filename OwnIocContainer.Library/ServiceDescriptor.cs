@@ -4,7 +4,7 @@ public class ServiceDescriptor
 {
     public Type? ParentType { get; }
     public Type ChildType { get; }
-    public object? Instance { get; set; } // TODO: public setter? Only singleton (split types)
+    public object? Instance { get; set; }
     public ServiceLifetime Lifetime { get; }
     
     public ServiceDescriptor(Type childType, ServiceLifetime lifetime)
@@ -24,6 +24,14 @@ public class ServiceDescriptor
     {
         ParentType = parentType;
         ChildType = childType;
+        Lifetime = lifetime;
+    }
+
+    public ServiceDescriptor(Type parentType, object instance, ServiceLifetime lifetime)
+    {
+        ParentType = parentType;
+        Instance = instance;
+        ChildType = instance.GetType();
         Lifetime = lifetime;
     }
 }
