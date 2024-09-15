@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnIocContainer.Library", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnIocContainer.Tests", "OwnIocContainer.Tests\OwnIocContainer.Tests.csproj", "{B5787812-CBEB-4931-8B39-82AD1DB1A113}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IocContainer.Console", "IocContainer.Console\IocContainer.Console.csproj", "{216927B1-8D5D-48B8-81D1-FD76DF132825}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceScopeProvider.Console", "ServiceScopeProvider.Console\ServiceScopeProvider.Console.csproj", "{C4CCDF44-CCCE-46B3-A162-05F0245A01CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,9 +54,19 @@ Global
 		{B5787812-CBEB-4931-8B39-82AD1DB1A113}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5787812-CBEB-4931-8B39-82AD1DB1A113}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5787812-CBEB-4931-8B39-82AD1DB1A113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216927B1-8D5D-48B8-81D1-FD76DF132825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216927B1-8D5D-48B8-81D1-FD76DF132825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216927B1-8D5D-48B8-81D1-FD76DF132825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216927B1-8D5D-48B8-81D1-FD76DF132825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4CCDF44-CCCE-46B3-A162-05F0245A01CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CCDF44-CCCE-46B3-A162-05F0245A01CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CCDF44-CCCE-46B3-A162-05F0245A01CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CCDF44-CCCE-46B3-A162-05F0245A01CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7D1BDADE-8E54-4D68-A47D-D930DDA63BA3} = {09E4042F-A81D-440B-8897-FCE5370008B0}
 		{B5787812-CBEB-4931-8B39-82AD1DB1A113} = {09E4042F-A81D-440B-8897-FCE5370008B0}
+		{216927B1-8D5D-48B8-81D1-FD76DF132825} = {09E4042F-A81D-440B-8897-FCE5370008B0}
+		{C4CCDF44-CCCE-46B3-A162-05F0245A01CC} = {09E4042F-A81D-440B-8897-FCE5370008B0}
 	EndGlobalSection
 EndGlobal

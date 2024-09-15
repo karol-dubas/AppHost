@@ -5,8 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
-
 // The launch profiles are configuration sets for running an application, with configured
 // environment variables, command line arguments, etc.
 // Environment variables set in launchsettings.json override those set in the system environment.
