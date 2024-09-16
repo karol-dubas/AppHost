@@ -18,9 +18,13 @@ services.TryAddSingleton<Service3>();
 
 var serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions
 {
-    ValidateScopes = true, // Exclude scoped services injected in singletons
+    // Exclude scoped services injected in singletons and resolving from a root provider
+    ValidateScopes = true,
     ValidateOnBuild = true
 });
+
+// "Cannot resolve scoped service ... from root provider."
+//scope.ServiceProvider.GetService<>();
 
 Console.WriteLine("Scope 1:");
 using var scope1 = serviceProvider.CreateScope();

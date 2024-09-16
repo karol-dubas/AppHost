@@ -106,12 +106,8 @@ Task RunMenuLoop(IHost host)
             {
                 using var scope = host.Services.CreateScope();
                 scope.ServiceProvider.GetRequiredService<IHostApplicationLifetime>().StopApplication();
+                return;
             }
-
-            // TODO: What is the difference between:
-            // host.Services.CreateScope().ServiceProvider.GetRequiredService<>
-            // host.Services.GetRequiredService<>
-            // Does scope handle lifetimes, disposes, etc.?
         }
     });
 }
