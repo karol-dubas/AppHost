@@ -48,6 +48,8 @@ Console.WriteLine();
 // - Scoped
 // - Transient
 
+// Singleton services should be thread-safe.
+
 // Services with a longer lifetime should not depend on services with a shorter lifetime.
 // - Singleton services should only depend on singleton services.
 // - Scoped services can depend on scoped and singleton services.
