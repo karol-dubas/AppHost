@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-// TODO: https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection
-
 // Add services to the DI container
 var services = new ServiceCollection();
 services.AddTransient<Service1>();
@@ -57,10 +55,4 @@ Console.WriteLine();
 
 // Two services can't depend on each other, because it creates a circular dependency.
 
-// Scoped service should never be injected in a singleton service,
-// because it is created at a root level, and it won't work as intended.
-
-// Transient service injected in a singleton service isn't recreated,
-// because the singleton isn't recreated as well, and it works like a singleton.
-
-// Use lazy factory or a service provider injection to create a new object or a scope.
+// Scoped service without a scope works like a singleton.
